@@ -32,12 +32,12 @@ The location is picked up directly from the receiver unless you specify your own
 |-|-|-|
 |`receiver`|`http://localhost:8080`|your tar1090 / dump1090 web page|
 |`lat`, `lon`|from the receiver, else Stanford campus|where your antenna is. Set both to override what the receiver publishes|
-|`lab\\\_name`, `subtitle`|`ADL`, `Live from the ADL rooftop`|labels on the map and in the corner|
-|`carto\\\_key`|\*(none)\*|free \[CARTO](https://carto.com/basemaps/apikey/) key for the dark basemap; without one, OpenStreetMap tiles are darkened instead|
-|`vis\\\_nm`, `min\\\_elev`, `vis\\\_max\\\_alt`|`2`, `10`, `7000`|what counts as "in sight"|
+|`lab_name`, `subtitle`|`ADL`, `Live from the ADL rooftop`|labels on the map and in the corner|
+|`carto_key`|(none)|free [CARTO](https://carto.com/basemaps/apikey/) key for the dark basemap; without one, OpenStreetMap tiles are darkened instead|
+|`vis_nm`, `min_elev`, `vis_max_alt`|`2`, `10`, `7000`|what counts as "in sight"|
 |`dwell`|`14`|seconds each aircraft is featured|
-|`allow\\\_ga`|`false`|also feature general aviation aircrafts|
-|`no\\\_fr24`|`false`|turn off the Flightradar24 feed (see below)|
+|`allow_ga`|`false`|also feature general aviation aircrafts|
+|`no_fr24`|`false`|turn off the Flightradar24 feed (see below)|
 |`host`, `port`|`127.0.0.1`, `8081`|where the dashboard is served|
 
 Ah, one more thing. I centered the map at SFO/SJC/OAK because I go to Stanford and we have three big airports within an hour's drive from us. If you(r receiver) is somewhere else, you'll probably want to pick another airport, in which case, go to `static/js/dashboard.js` and edit `APTS` and `MAJOR`.
