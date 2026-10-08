@@ -4,7 +4,7 @@ name: Deploy demo to GitHub Pages
 #   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
