@@ -4,7 +4,7 @@ My advisor is an airplane nut. I am an airplane nut. The lab had an unused TV an
 
 This app is built to power the ADL TV, and ONLY the ADL TV, but if you have your own ADSB receiver, you can easily hook it up to this code and run your own TV. All you need is a [tar1090](https://github.com/wiedehopf/tar1090) / dump1090 receiver with a readable `aircraft.json`.
 
-[Overhead on a 1080p TV](screenshot.png)
+![Overhead on a 1080p TV](screenshot.png)
 
 As a bonus, due to the extreme age of the ancient workstation we repurposed for this thingy, it will run with any Python >= 3.5 (yes! 3.5!). However it does require a fairly modern web browser.
 
