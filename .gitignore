@@ -1,0 +1,10 @@
+# your own settings (receiver URL, location, API keys) - never commit these
+config.json
+launch-options
+
+# downloaded / generated at runtime
+site/
+cache/
+logs/
+__pycache__/
+*.pyc

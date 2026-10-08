@@ -1,0 +1,141 @@
+/* Overhead dashboard styles. Palette: Stanford identity colours (Cardinal, Black, Fog, Illuminating, Sky, Spirited, Bay). */
+  @font-face { font-family: 'Source Sans 3'; font-weight: 400; src: url(../fonts/source-sans-3-latin-400-normal.woff2) format('woff2'); }
+  @font-face { font-family: 'Source Sans 3'; font-weight: 500; src: url(../fonts/source-sans-3-latin-500-normal.woff2) format('woff2'); }
+  @font-face { font-family: 'Source Sans 3'; font-weight: 600; src: url(../fonts/source-sans-3-latin-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: 'Source Sans 3'; font-weight: 700; src: url(../fonts/source-sans-3-latin-700-normal.woff2) format('woff2'); }
+
+  :root {
+    --bg: #1d1c19;        /* Stanford Black, darkened - map backdrop */
+    --panel: #2e2d29;     /* Stanford Black */
+    --line: rgba(218, 215, 203, .16);   /* Fog */
+    --ink: #ffffff;
+    --mute: #b6b1a9;      /* Fog dark */
+    --cardinal: #8c1515;  /* Cardinal Red */
+    --amber: #fedd5c;     /* Illuminating - in sight from here */
+    --cyan:  #67afd2;     /* Sky (light)  - landing at SFO */
+    --coral: #f4795b;     /* Spirited (light) - departing SFO */
+    --green: #6fa287;     /* Bay - on the ground */
+    --slate: #ece8df;     /* near-white - everything else, so it stands out on the dark map */
+    --head: 'Source Sans 3', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'Source Sans 3', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: min(1.05vw, 1.85vh); }
+  body {
+    height: 100vh; overflow: hidden; cursor: none; user-select: none;
+    background: var(--bg); color: var(--ink); font: 400 1rem/1.25 var(--body); font-variant-numeric: tabular-nums;
+    display: grid; grid-template-columns: minmax(0, 1fr) 26rem;
+    border-top: .3rem solid var(--cardinal);
+  }
+  @media (max-aspect-ratio: 1/1) {
+    html { font-size: min(2.3vw, 1.5vh); }
+    body { grid-template-columns: 1fr; grid-template-rows: 46vh minmax(0, 1fr); }
+    .photo { aspect-ratio: auto; height: 11rem; } .ovwrap, .ov { width: 12rem; } .ov { height: 12rem; }
+    .callsign { font-size: 3rem; } .route .code { font-size: 2.6rem; }
+  }
+
+  /* ================= MAP ================= */
+  .mapwrap { position: relative; overflow: hidden; background: var(--bg); }
+  #map { position: absolute; inset: 0; background: var(--bg); }
+  .basemap-carto { filter: grayscale(.4) sepia(.2) brightness(.8) contrast(1.05); }
+  /* OpenStreetMap is a light map: invert it, restore the hues, then pull it toward the dashboard's navy */
+  .basemap-osm { filter: invert(1) hue-rotate(180deg) sepia(.2) saturate(.55) brightness(.62) contrast(.95); }
+  #fx { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 500; pointer-events: none; }
+  .vignette { position: absolute; inset: 0; z-index: 510; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(18, 17, 15, .55) 100%); }
+
+  .hud { position: absolute; z-index: 600; pointer-events: none; }
+  .title { left: 1.6rem; top: 1.3rem; }
+  .title h1 { font: 700 3.6rem/.9 var(--head); letter-spacing: .005em; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+  .title p { font: 600 1.15rem/1 var(--head); color: var(--ink); text-shadow: 0 1px 8px rgba(0,0,0,.9); }
+  .title p::before { content: ''; display: inline-block; width: .45rem; height: 1.15rem; background: #b1040e; margin-right: .7rem; vertical-align: -.2rem; }
+  .clock { right: 1.6rem; top: 1.3rem; text-align: right; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+  .clock .t { font: 600 2.7rem/.9 var(--head); }
+  .clock .d { color: var(--mute); font-size: .95rem; margin-top: .4rem; }
+  .clock .n { color: var(--mute); font-size: .8rem; margin-top: .15rem; }
+
+  .legend { right: 1.6rem; top: 7.4rem; display: flex; gap: .9rem; font-size: .72rem; color: var(--ink); text-shadow: 0 1px 6px rgba(0,0,0,.9); }
+  .legend span { display: flex; align-items: center; gap: .35rem; }
+  .legend i { width: .6rem; height: .6rem; border-radius: 50%; display: inline-block; }
+  .legend i.ring { background: none; border: .13rem solid var(--amber); }
+  .attrib { right: 1.6rem; bottom: .45rem; font-size: .52rem; color: rgba(218, 215, 203, .6); z-index: 601; }
+
+  /* receiver-range overview: a little radar scope in the corner */
+  .ovwrap { left: 1.6rem; bottom: 1.5rem; width: 19rem; }
+  .ov { position: relative; width: 19rem; height: 19rem; border-radius: 50%; overflow: hidden; background: #141311;
+        border: 1px solid rgba(218,215,203,.4); box-shadow: 0 0 0 .3rem rgba(29,28,25,.6), 0 .4rem 1.4rem rgba(0,0,0,.6); }
+  #ovmap, #ovfx { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #ovmap { background: #141311; } #ovfx { z-index: 500; pointer-events: none; }
+  .ovwrap p { text-align: center; color: var(--ink); font-size: .74rem; margin-top: .55rem; text-shadow: 0 1px 6px #000, 0 0 3px #000; }
+  .banner { left: 50%; top: 1.1rem; transform: translateX(-50%); display: none; z-index: 700;
+    background: #b1040e; color: #fff; font: 600 1.15rem/1 var(--head); padding: .55rem 1.1rem; border-radius: .3rem; }
+  body.offline .banner { display: block; }
+
+  /* ================= PANEL ================= */
+  .panel { display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--panel); border-left: 1px solid var(--line); min-height: 0; }
+  @media (max-aspect-ratio: 1/1) { .panel { border-left: 0; border-top: 1px solid var(--line); } }
+
+  .feature { position: relative; }
+  .stage { transition: opacity .4s ease; }
+  .stage.out { opacity: 0; }
+
+  /* The box takes the shape of the picture (--ar is set from the photo's real size), so it always
+     fills the panel edge to edge. Planespotters' biggest size is 420px wide; we never stretch it taller. */
+  .photo { position: relative; width: 100%; aspect-ratio: var(--ar, 1.5); overflow: hidden; background: #1d1c19; }
+  .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .photo .none { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; color: var(--mute); font-size: .85rem; }
+  .photo .none svg { width: 7rem; fill: rgba(218,215,203,.2); }
+  .photo.empty .none { display: flex; }
+  .photo.empty img { display: none; }
+  .chip { position: absolute; left: 1rem; top: 1rem; z-index: 2; font: 600 1rem/1 var(--head);
+    padding: .42rem .75rem .38rem; border-radius: .25rem; background: var(--slate); color: #2e2d29; }
+  .chip.amber { background: var(--amber); } .chip.cyan { background: var(--cyan); } .chip.coral { background: var(--coral); }
+  .credit { position: absolute; left: 1rem; bottom: .55rem; z-index: 2; font-size: .58rem; color: rgba(255,255,255,.78); text-shadow: 0 1px 3px rgba(0,0,0,.9); }
+
+  .ident { padding: 1rem 1.4rem .2rem; display: grid; grid-template-columns: minmax(0,1fr) auto; column-gap: 1rem; align-items: center; }
+  .ident .sub { grid-column: 1 / -1; }
+  .callsign { font: 700 2.4rem/.95 var(--head); letter-spacing: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sub { color: var(--mute); font-size: .92rem; margin-top: .4rem; line-height: 1.25; }
+  .sub .op { color: var(--ink); font-weight: 600; } .sub .via, .sub .ac { margin-top: .15rem; }
+  .route { display: none; align-items: center; gap: .55rem; }
+  .route .code { font: 700 1.95rem/.9 var(--head); color: var(--ink); text-align: center; }
+  .route .city { font-size: .58rem; color: var(--mute); text-align: center; max-width: 4.8rem; margin-top: .2rem; line-height: 1.1; }
+  .route .arrow { font: 500 1.4rem/1 var(--head); color: var(--mute); padding-bottom: .95rem; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: .85rem 1.4rem .2rem; border-top: 1px solid var(--line); }
+  .stat { padding-top: .6rem; } .stat + .stat { padding-left: 1rem; }
+  .stat .v { font: 600 1.7rem/1 var(--head); white-space: nowrap; }
+  .stat .v small { font-size: 1rem; color: var(--mute); font-weight: 500; margin-left: .2rem; }
+  .stat .l { color: var(--mute); font-size: .7rem; margin-top: .15rem; }
+  .metas { padding: .55rem 1.4rem .9rem; display: grid; gap: .3rem; min-height: 3.6rem; }
+  .meta { display: grid; grid-template-columns: .6rem minmax(0, 1fr); column-gap: .55rem; align-items: baseline; font-size: 1.05rem; font-weight: 500; line-height: 1.3; }
+  .meta i { width: .6rem; height: .6rem; border-radius: 50%; flex: none; transform: translateY(-.05rem); }
+  .meta.amber i { background: var(--amber); } .meta.cyan i { background: var(--cyan); } .meta.coral i { background: var(--coral); } .meta.slate i { background: var(--slate); }
+  .meta span { color: var(--mute); font-weight: 400; white-space: nowrap; }
+
+  .idle { display: none; position: absolute; inset: 0; z-index: 5; background: var(--panel); flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: .7rem; padding: 2rem; }
+  .idle h2 { font: 700 2.6rem/1 var(--head); }
+  .idle p { color: var(--mute); font-size: .95rem; max-width: 20rem; }
+  body.is-idle .idle { display: flex; }
+
+  /* ---------- ADS-B table ---------- */
+  .lists { border-top: 1px solid var(--line); display: grid; grid-template-rows: minmax(0, 1fr); min-height: 0; overflow: hidden; }
+  .tbl { padding: .85rem 1.2rem 0; min-height: 0; overflow: hidden; }
+  .tbl h3 { font: 600 1rem/1 var(--head); display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; }
+  .tbl h3 span { font: 400 .7rem var(--body); color: var(--mute); }
+  .thead, .row { display: grid; grid-template-columns: 5rem 2.8rem 4.6rem minmax(0, 1fr) 2.5rem 2.7rem; gap: .3rem; align-items: baseline; }
+  .thead { color: var(--mute); font-size: .56rem; padding: 0 0 .3rem .6rem; border-bottom: 1px solid var(--line); }
+  .thead span:nth-child(n+4), .row .n { text-align: right; }
+  .row { padding: .2rem 0 .2rem .6rem; border-left: .22rem solid transparent; font-size: .68rem; }
+  .row.t-amber { border-left-color: var(--amber); } .row.t-cyan { border-left-color: var(--cyan); }
+  .row.t-coral { border-left-color: var(--coral); } .row.t-green { border-left-color: var(--green); } .row.t-slate { border-left-color: rgba(182,177,169,.35); }
+  .row.cur { background: linear-gradient(90deg, rgba(255,255,255,.11), transparent); }
+  .row .cs { font: 600 .92rem/1 var(--head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row.t-amber .cs { color: var(--amber); }
+  .row .ty, .row .rt { color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: .62rem; }
+  .row .n { white-space: nowrap; }
+  .row i { font-style: normal; font-size: .52rem; margin-left: .15rem; } .row .up { color: var(--coral); } .row .dn { color: var(--cyan); }
+  .empty { color: var(--mute); font-size: .85rem; padding: .5rem 0 0 .6rem; }
+  .more { color: var(--mute); font-size: .7rem; padding: .3rem 0 0 .6rem; }
+
+  @media (prefers-reduced-motion: reduce) { .stage { transition: none; } }

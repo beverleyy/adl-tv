@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overhead</title>
+<link rel="stylesheet" href="static/leaflet/leaflet.css">
+<link rel="stylesheet" href="static/css/dashboard.css?v=__VERSION__">
+</head>
+<body>
+
+<main class="mapwrap">
+  <div id="map"></div>
+  <canvas id="fx"></canvas>
+  <div class="vignette"></div>
+
+  <div class="hud title"><p id="subtitle"></p></div>
+  <div class="hud clock"><div class="t" id="clock"></div><div class="d" id="date"></div><div class="n" id="tracked"></div></div>
+  <div class="hud banner" id="banner">Receiver offline</div>
+
+  <div class="hud ovwrap"><div class="ov"><div id="ovmap"></div><canvas id="ovfx"></canvas></div><p id="ovcap"></p></div>
+
+  <div class="hud legend">
+    <span><i class="ring"></i>In sight</span><span><i style="background:var(--cyan)"></i>Landing</span><span><i style="background:var(--coral)"></i>Departing</span><span><i style="background:var(--green)"></i>On ground</span>
+  </div>
+  <div class="hud attrib" id="attrib"></div>
+</main>
+
+<aside class="panel">
+  <section class="feature">
+    <div class="stage" id="stage">
+      <div class="photo empty" id="photo">
+        <img id="fg" alt="">
+        <div class="none">
+          <svg viewBox="0 0 64 64"><path d="M32 2c-1.8 0-3 1.5-3 3.5V22L4 36v5l25-6.5V50l-7 5v4l10-2.6L42 59v-4l-7-5V34.5L60 41v-5L35 22V5.5C35 3.500 33.800 2 32 2z"/></svg>
+          <div>No photo on file for this aircraft yet</div>
+        </div>
+        <div class="chip" id="chip"></div>
+        <div class="credit" id="credit"></div>
+      </div>
+      <div class="ident">
+        <div class="callsign" id="callsign">&nbsp;</div>
+        <div class="route" id="route">
+          <div><div class="code" id="oCode"></div><div class="city" id="oCity"></div></div>
+          <div class="arrow">&rarr;</div>
+          <div><div class="code" id="dCode"></div><div class="city" id="dCity"></div></div>
+        </div>
+        <div class="sub" id="sub"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="v" id="alt">-</div><div class="l">altitude</div></div>
+        <div class="stat"><div class="v" id="spd">-</div><div class="l">ground speed</div></div>
+        <div class="stat"><div class="v" id="dst">-</div><div class="l" id="dstl">from here</div></div>
+      </div>
+      <div class="metas" id="metas"></div>
+    </div>
+    <div class="idle" id="idle"><h2>Quiet skies</h2><p id="idleP"></p></div>
+  </section>
+
+  <section class="lists">
+    <div class="tbl" id="tbl">
+      <h3>On the map <span id="tblCount"></span></h3>
+      <div class="thead"><span>Flight</span><span>Type</span><span>Route</span><span>Alt ft</span><span>Kt</span><span>Nm</span></div>
+      <div id="tbody"></div>
+    </div>
+  </section>
+</aside>
+
+<script src="static/leaflet/leaflet.js"></script>
+<script src="static/js/dashboard.js?v=__VERSION__"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compile everything
+        run: python -m py_compile server.py start.py tools/mock_receiver.py tools/build_demo.py tools/build_demo_data.py tests/test_server.py tests/test_build.py
+      - name: JavaScript syntax
+        run: node --check static/js/dashboard.js && node --check static/js/demo.js
+      - name: Unit tests
+        run: python -m unittest discover tests -v
+      - name: Demo simulation tests
+        run: node tests/test_demo.js
+      - name: Build the GitHub Pages demo
+        run: python tools/build_demo.py && test -f site/index.html && grep -q demo.js site/index.html
+      - name: Smoke test (server + demo receiver)
+        run: |
+          python tools/mock_receiver.py &
+          python server.py --receiver http://localhost:9099 --no-fr24 --port 8081 &
+          sleep 5
+          curl -sf http://localhost:8081/ | grep -q dashboard.css
+          curl -sf http://localhost:8081/static/js/dashboard.js -o /dev/null
+          curl -sf http://localhost:8081/api/config | python -c "import sys, json; c = json.load(sys.stdin); assert (c['lat'], c['lon'], c['location_source'], c['lab_name']) == (37.4301, -122.1702, 'receiver', 'ADL')"
+          curl -sf http://localhost:8081/api/aircraft | python -c "import sys, json; assert len(json.load(sys.stdin)['aircraft']) > 0"

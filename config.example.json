@@ -1,0 +1,10 @@
+{
+  "_comment": "Copy this file to config.json (which is git-ignored) and fill in your own values. Any command-line option can go here, with underscores: e.g. --carto-key -> carto_key. You normally don't need lat/lon: the dashboard reads your receiver's location from its receiver.json. To set it by hand, rename _lat/_lon below to lat/lon.",
+  "receiver": "http://localhost:8080",
+  "_lat": 37.4275,
+  "_lon": -122.1697,
+  "lab_elev_ft": 100,
+  "lab_name": "ADL",
+  "subtitle": "Live from the ADL rooftop",
+  "carto_key": ""
+}
