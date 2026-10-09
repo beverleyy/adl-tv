@@ -85,8 +85,15 @@ python3 -m unittest discover tests
 
 ## Credits
 
-Built with \[Leaflet](https://leafletjs.com) (BSD-2-Clause) and the
-\[Source Sans 3](https://github.com/adobe-fonts/source-sans) typeface (SIL OFL 1.1), both bundled in
+Built with [Leaflet](https://leafletjs.com) (BSD-2-Clause) and the
+[Source Sans 3](https://github.com/adobe-fonts/source-sans) typeface (SIL OFL 1.1), both bundled in
 `static/`. The color palette follows Stanford's identity colours. Map data © OpenStreetMap contributors.
+
+## To-do list
+
+- Better airplane feature selection algorithm... can we prioritize supers, special liveries, and airplanes that we don't often see at the airport?
+- Move the airport selection/list to a configurable setting, it was mostly an afterthought in the documentation
+- Distinguish fighters and other military aircraft from civilian aircraft and airliners
+- eVTOL ;)
 
 
